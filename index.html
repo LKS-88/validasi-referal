@@ -148,6 +148,27 @@
             background: #d91a6d;
         }
         
+        .btn-warning {
+            background: var(--warning);
+        }
+        
+        .btn-warning:hover {
+            background: #e07e0e;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+        }
+        
+        .btn-danger:hover {
+            background: #d61a2a;
+        }
+        
+        .btn-sm {
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+        
         .table-responsive {
             overflow-x: auto;
         }
@@ -260,6 +281,30 @@
             font-size: 0.9rem;
         }
         
+        .admin-section {
+            display: none;
+        }
+        
+        .login-form {
+            max-width: 500px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .login-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -267,6 +312,11 @@
             
             .card {
                 padding: 1.5rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 4px;
             }
         }
     </style>
@@ -279,48 +329,98 @@
             <p>Sistem validasi kode pembelian dengan keamanan tingkat tinggi</p>
         </div>
         
-        <div class="card">
-            <h2 class="card-title"><i class="fas fa-user-plus"></i> Form Registrasi Pembelian</h2>
-            <form id="registrationForm">
-                <div class="form-group">
-                    <label for="purchaseDate">Tanggal & Waktu Pembelian</label>
-                    <input type="datetime-local" id="purchaseDate" class="form-control" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="customerName">Nama Lengkap</label>
-                    <input type="text" id="customerName" class="form-control" placeholder="Masukkan nama lengkap" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="customerAddress">Alamat Lengkap</label>
-                    <textarea id="customerAddress" class="form-control" rows="3" placeholder="Masukkan alamat lengkap" required></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="whatsappNumber">Nomor WhatsApp</label>
-                    <input type="tel" id="whatsappNumber" class="form-control" placeholder="Contoh: 6281234567890" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="notes">Keterangan</label>
-                    <textarea id="notes" class="form-control" rows="2" placeholder="Catatan tambahan (opsional)"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="purchaseCode">Kode Pembelian</label>
-                    <input type="text" id="purchaseCode" class="form-control" placeholder="Masukkan kode pembelian" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="referralCode">Kode Referral</label>
-                    <input type="text" id="referralCode" class="form-control" placeholder="Masukkan kode referral" required>
-                </div>
-                
-                <button type="submit" class="btn btn-accent"><i class="fas fa-save"></i> Simpan Data</button>
-            </form>
+        <!-- Admin Login Form -->
+        <div id="adminLogin" class="login-form">
+            <h2 class="login-title"><i class="fas fa-lock"></i> Admin Login</h2>
+            <div class="form-group">
+                <label for="adminCode">Kode Keamanan Admin</label>
+                <input type="password" id="adminCode" class="form-control" placeholder="Masukkan kode keamanan">
+            </div>
+            <button id="loginBtn" class="btn btn-accent"><i class="fas fa-sign-in-alt"></i> Masuk</button>
         </div>
         
+        <!-- Admin Section (Hidden by default) -->
+        <div id="adminSection" class="admin-section">
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-user-plus"></i> Form Registrasi Pembelian</h2>
+                <form id="registrationForm">
+                    <div class="form-group">
+                        <label for="purchaseDate">Tanggal & Waktu Pembelian</label>
+                        <input type="datetime-local" id="purchaseDate" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerName">Nama Lengkap</label>
+                        <input type="text" id="customerName" class="form-control" placeholder="Masukkan nama lengkap" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerAddress">Alamat Lengkap</label>
+                        <textarea id="customerAddress" class="form-control" rows="3" placeholder="Masukkan alamat lengkap" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="whatsappNumber">Nomor WhatsApp</label>
+                        <input type="tel" id="whatsappNumber" class="form-control" placeholder="Contoh: 6281234567890" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Keterangan</label>
+                        <textarea id="notes" class="form-control" rows="2" placeholder="Catatan tambahan (opsional)"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="purchaseCode">Kode Pembelian</label>
+                        <input type="text" id="purchaseCode" class="form-control" placeholder="Masukkan kode pembelian" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="referralCode">Kode Referral</label>
+                        <input type="text" id="referralCode" class="form-control" placeholder="Masukkan kode referral" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" class="form-control" required>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Expired">Expired</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" id="saveBtn" class="btn btn-accent"><i class="fas fa-save"></i> Simpan Data</button>
+                    <button type="button" id="cancelEdit" class="btn btn-danger" style="display: none;"><i class="fas fa-times"></i> Batal Edit</button>
+                </form>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-database"></i> Data Pembelian Terdaftar</h2>
+                
+                <div class="table-responsive">
+                    <table id="purchaseTable">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Tanggal</th>
+                                <th>Nama</th>
+                                <th>WhatsApp</th>
+                                <th>Kode Pembelian</th>
+                                <th>Kode Referral</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="purchaseTableBody">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <button id="logoutBtn" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Keluar Admin</button>
+        </div>
+        
+        <!-- Public Section (Always visible) -->
         <div class="card">
             <h2 class="card-title"><i class="fas fa-search"></i> Validasi Kode Referral</h2>
             
@@ -342,73 +442,6 @@
             </div>
         </div>
         
-        <div class="card">
-            <h2 class="card-title"><i class="fas fa-database"></i> Data Pembelian Terdaftar</h2>
-            
-            <div class="table-responsive">
-                <table id="purchaseTable">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Tanggal</th>
-                            <th>Nama</th>
-                            <th>WhatsApp</th>
-                            <th>Kode Pembelian</th>
-                            <th>Kode Referral</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>2023-05-15 14:30</td>
-                            <td>Budi Santoso</td>
-                            <td>6281234567890</td>
-                            <td>PRD-2023-001</td>
-                            <td>REF-BUDI-001</td>
-                            <td><span class="badge badge-success">Aktif</span></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2023-05-16 10:15</td>
-                            <td>Ani Wijaya</td>
-                            <td>6282345678901</td>
-                            <td>PRD-2023-002</td>
-                            <td>REF-ANI-002</td>
-                            <td><span class="badge badge-success">Aktif</span></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>2023-05-17 16:45</td>
-                            <td>Citra Dewi</td>
-                            <td>6283456789012</td>
-                            <td>PRD-2023-003</td>
-                            <td>REF-CITRA-003</td>
-                            <td><span class="badge badge-warning">Pending</span></td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>2023-05-18 09:20</td>
-                            <td>Doni Pratama</td>
-                            <td>6284567890123</td>
-                            <td>PRD-2023-004</td>
-                            <td>REF-DONI-004</td>
-                            <td><span class="badge badge-success">Aktif</span></td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>2023-05-19 13:10</td>
-                            <td>Eka Sari</td>
-                            <td>6285678901234</td>
-                            <td>PRD-2023-005</td>
-                            <td>REF-EKA-005</td>
-                            <td><span class="badge badge-danger">Expired</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        
         <div class="footer">
             <p>&copy; 2023 Premium Code Validation System. All rights reserved.</p>
         </div>
@@ -416,21 +449,239 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Sample data for validation
-            const validCodes = [
-                'REF-BUDI-001',
-                'REF-ANI-002',
-                'REF-CITRA-003',
-                'REF-DONI-004',
-                'REF-EKA-005'
+            // Admin security code
+            const ADMIN_CODE = "Admin.13579";
+            
+            // Sample data
+            let purchaseData = [
+                {
+                    id: 1,
+                    date: "2023-05-15T14:30",
+                    name: "Budi Santoso",
+                    address: "Jl. Merdeka No. 123, Jakarta",
+                    whatsapp: "6281234567890",
+                    notes: "Pembelian paket premium",
+                    purchaseCode: "PRD-2023-001",
+                    referralCode: "REF-BUDI-001",
+                    status: "Aktif"
+                },
+                {
+                    id: 2,
+                    date: "2023-05-16T10:15",
+                    name: "Ani Wijaya",
+                    address: "Jl. Sudirman No. 45, Bandung",
+                    whatsapp: "6282345678901",
+                    notes: "Pembelian paket standard",
+                    purchaseCode: "PRD-2023-002",
+                    referralCode: "REF-ANI-002",
+                    status: "Aktif"
+                },
+                {
+                    id: 3,
+                    date: "2023-05-17T16:45",
+                    name: "Citra Dewi",
+                    address: "Jl. Gatot Subroto No. 67, Surabaya",
+                    whatsapp: "6283456789012",
+                    notes: "Pembelian paket trial",
+                    purchaseCode: "PRD-2023-003",
+                    referralCode: "REF-CITRA-003",
+                    status: "Pending"
+                },
+                {
+                    id: 4,
+                    date: "2023-05-18T09:20",
+                    name: "Doni Pratama",
+                    address: "Jl. Thamrin No. 89, Medan",
+                    whatsapp: "6284567890123",
+                    notes: "Pembelian paket premium",
+                    purchaseCode: "PRD-2023-004",
+                    referralCode: "REF-DONI-004",
+                    status: "Aktif"
+                },
+                {
+                    id: 5,
+                    date: "2023-05-19T13:10",
+                    name: "Eka Sari",
+                    address: "Jl. Asia Afrika No. 12, Yogyakarta",
+                    whatsapp: "6285678901234",
+                    notes: "Pembelian paket standard",
+                    purchaseCode: "PRD-2023-005",
+                    referralCode: "REF-EKA-005",
+                    status: "Expired"
+                }
             ];
             
-            // Form submission
-            document.getElementById('registrationForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Data pembelian berhasil disimpan!');
-                this.reset();
+            // DOM Elements
+            const adminLogin = document.getElementById('adminLogin');
+            const adminSection = document.getElementById('adminSection');
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const adminCode = document.getElementById('adminCode');
+            const registrationForm = document.getElementById('registrationForm');
+            const purchaseTableBody = document.getElementById('purchaseTableBody');
+            const saveBtn = document.getElementById('saveBtn');
+            const cancelEdit = document.getElementById('cancelEdit');
+            let isEditing = false;
+            let currentEditId = null;
+            
+            // Initialize the app
+            init();
+            
+            function init() {
+                renderPurchaseTable();
+                
+                // Check if admin is logged in from sessionStorage
+                if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+                    adminLogin.style.display = 'none';
+                    adminSection.style.display = 'block';
+                }
+            }
+            
+            // Login function
+            loginBtn.addEventListener('click', function() {
+                if (adminCode.value === ADMIN_CODE) {
+                    // Correct code
+                    adminLogin.style.display = 'none';
+                    adminSection.style.display = 'block';
+                    sessionStorage.setItem('adminLoggedIn', 'true');
+                    adminCode.value = ''; // Clear the input
+                } else {
+                    alert('Kode keamanan salah!');
+                    adminCode.value = ''; // Clear the input
+                }
             });
+            
+            // Logout function
+            logoutBtn.addEventListener('click', function() {
+                sessionStorage.removeItem('adminLoggedIn');
+                adminLogin.style.display = 'block';
+                adminSection.style.display = 'none';
+                resetForm();
+            });
+            
+            // Form submission
+            registrationForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = {
+                    id: isEditing ? currentEditId : purchaseData.length > 0 ? Math.max(...purchaseData.map(item => item.id)) + 1 : 1,
+                    date: document.getElementById('purchaseDate').value,
+                    name: document.getElementById('customerName').value,
+                    address: document.getElementById('customerAddress').value,
+                    whatsapp: document.getElementById('whatsappNumber').value,
+                    notes: document.getElementById('notes').value,
+                    purchaseCode: document.getElementById('purchaseCode').value,
+                    referralCode: document.getElementById('referralCode').value,
+                    status: document.getElementById('status').value
+                };
+                
+                if (isEditing) {
+                    // Update existing data
+                    const index = purchaseData.findIndex(item => item.id === currentEditId);
+                    if (index !== -1) {
+                        purchaseData[index] = formData;
+                    }
+                } else {
+                    // Add new data
+                    purchaseData.push(formData);
+                }
+                
+                renderPurchaseTable();
+                resetForm();
+                alert(`Data pembelian berhasil ${isEditing ? 'diperbarui' : 'disimpan'}!`);
+            });
+            
+            // Cancel edit
+            cancelEdit.addEventListener('click', resetForm);
+            
+            // Render purchase table
+            function renderPurchaseTable() {
+                purchaseTableBody.innerHTML = '';
+                
+                purchaseData.forEach((item, index) => {
+                    const row = document.createElement('tr');
+                    
+                    // Determine badge class based on status
+                    let badgeClass = 'badge-success';
+                    if (item.status === 'Pending') badgeClass = 'badge-warning';
+                    if (item.status === 'Expired') badgeClass = 'badge-danger';
+                    
+                    // Format date
+                    const formattedDate = formatDateTime(item.date);
+                    
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${formattedDate}</td>
+                        <td>${item.name}</td>
+                        <td>${item.whatsapp}</td>
+                        <td>${item.purchaseCode}</td>
+                        <td>${item.referralCode}</td>
+                        <td><span class="badge ${badgeClass}">${item.status}</span></td>
+                        <td class="action-buttons">
+                            <button onclick="editPurchase(${item.id})" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</button>
+                            <button onclick="deletePurchase(${item.id})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Hapus</button>
+                        </td>
+                    `;
+                    
+                    purchaseTableBody.appendChild(row);
+                });
+            }
+            
+            // Edit purchase
+            window.editPurchase = function(id) {
+                const purchase = purchaseData.find(item => item.id === id);
+                if (purchase) {
+                    document.getElementById('purchaseDate').value = purchase.date;
+                    document.getElementById('customerName').value = purchase.name;
+                    document.getElementById('customerAddress').value = purchase.address;
+                    document.getElementById('whatsappNumber').value = purchase.whatsapp;
+                    document.getElementById('notes').value = purchase.notes;
+                    document.getElementById('purchaseCode').value = purchase.purchaseCode;
+                    document.getElementById('referralCode').value = purchase.referralCode;
+                    document.getElementById('status').value = purchase.status;
+                    
+                    isEditing = true;
+                    currentEditId = id;
+                    saveBtn.innerHTML = '<i class="fas fa-save"></i> Update Data';
+                    cancelEdit.style.display = 'inline-block';
+                    
+                    // Scroll to form
+                    document.getElementById('registrationForm').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+            
+            // Delete purchase
+            window.deletePurchase = function(id) {
+                if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+                    purchaseData = purchaseData.filter(item => item.id !== id);
+                    renderPurchaseTable();
+                    if (isEditing && currentEditId === id) {
+                        resetForm();
+                    }
+                    alert('Data berhasil dihapus!');
+                }
+            };
+            
+            // Reset form
+            function resetForm() {
+                registrationForm.reset();
+                isEditing = false;
+                currentEditId = null;
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Simpan Data';
+                cancelEdit.style.display = 'none';
+            }
+            
+            // Format date time
+            function formatDateTime(dateTimeString) {
+                const date = new Date(dateTimeString);
+                return date.toLocaleString('id-ID', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
             
             // Validation function
             document.getElementById('validateBtn').addEventListener('click', function() {
@@ -445,11 +696,18 @@
                     return;
                 }
                 
-                if (validCodes.includes(referralCode)) {
+                const foundPurchase = purchaseData.find(item => item.referralCode === referralCode);
+                
+                if (foundPurchase) {
                     resultDiv.className = 'validation-result valid result-valid';
                     resultIcon.className = 'fas fa-check-circle result-icon';
                     resultTitle.textContent = 'Kode Valid!';
-                    resultDetails.textContent = `Kode referral ${referralCode} terdaftar dalam sistem dan aktif.`;
+                    resultDetails.innerHTML = `
+                        Kode referral <strong>${referralCode}</strong> terdaftar dalam sistem.<br>
+                        Status: <span class="badge ${foundPurchase.status === 'Aktif' ? 'badge-success' : foundPurchase.status === 'Pending' ? 'badge-warning' : 'badge-danger'}">${foundPurchase.status}</span><br>
+                        Atas Nama: ${foundPurchase.name}<br>
+                        Tanggal Pembelian: ${formatDateTime(foundPurchase.date)}
+                    `;
                 } else {
                     resultDiv.className = 'validation-result invalid result-invalid';
                     resultIcon.className = 'fas fa-times-circle result-icon';
