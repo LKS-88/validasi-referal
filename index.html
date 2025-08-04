@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Code Validation System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #ef233c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-title i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-accent {
+            background: var(--accent);
+        }
+        
+        .btn-accent:hover {
+            background: #d91a6d;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 500;
+        }
+        
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        tr:hover {
+            background: #f1f3ff;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .badge-success {
+            background: #e8f7ef;
+            color: #00a76f;
+        }
+        
+        .badge-warning {
+            background: #fff6e8;
+            color: #ff9e27;
+        }
+        
+        .badge-danger {
+            background: #feeceb;
+            color: #ff4242;
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-box input {
+            padding-left: 40px;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        .validation-result {
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            display: none;
+        }
+        
+        .valid {
+            background: #e8f7ef;
+            border-left: 4px solid #00a76f;
+        }
+        
+        .invalid {
+            background: #feeceb;
+            border-left: 4px solid #ff4242;
+        }
+        
+        .result-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+        
+        .result-valid .result-icon {
+            color: #00a76f;
+        }
+        
+        .result-invalid .result-icon {
+            color: #ff4242;
+        }
+        
+        .flex {
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Premium Code Validation</h1>
+            <p>Sistem validasi kode pembelian dengan keamanan tingkat tinggi</p>
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title"><i class="fas fa-user-plus"></i> Form Registrasi Pembelian</h2>
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label for="purchaseDate">Tanggal & Waktu Pembelian</label>
+                    <input type="datetime-local" id="purchaseDate" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerName">Nama Lengkap</label>
+                    <input type="text" id="customerName" class="form-control" placeholder="Masukkan nama lengkap" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerAddress">Alamat Lengkap</label>
+                    <textarea id="customerAddress" class="form-control" rows="3" placeholder="Masukkan alamat lengkap" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="whatsappNumber">Nomor WhatsApp</label>
+                    <input type="tel" id="whatsappNumber" class="form-control" placeholder="Contoh: 6281234567890" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Keterangan</label>
+                    <textarea id="notes" class="form-control" rows="2" placeholder="Catatan tambahan (opsional)"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="purchaseCode">Kode Pembelian</label>
+                    <input type="text" id="purchaseCode" class="form-control" placeholder="Masukkan kode pembelian" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="referralCode">Kode Referral</label>
+                    <input type="text" id="referralCode" class="form-control" placeholder="Masukkan kode referral" required>
+                </div>
+                
+                <button type="submit" class="btn btn-accent"><i class="fas fa-save"></i> Simpan Data</button>
+            </form>
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title"><i class="fas fa-search"></i> Validasi Kode Referral</h2>
+            
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchReferral" class="form-control" placeholder="Masukkan kode referral untuk validasi...">
+            </div>
+            
+            <button id="validateBtn" class="btn"><i class="fas fa-check-circle"></i> Validasi Kode</button>
+            
+            <div id="validationResult" class="validation-result">
+                <div class="flex">
+                    <i class="fas result-icon"></i>
+                    <div>
+                        <h3 id="resultTitle"></h3>
+                        <p id="resultDetails"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title"><i class="fas fa-database"></i> Data Pembelian Terdaftar</h2>
+            
+            <div class="table-responsive">
+                <table id="purchaseTable">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Tanggal</th>
+                            <th>Nama</th>
+                            <th>WhatsApp</th>
+                            <th>Kode Pembelian</th>
+                            <th>Kode Referral</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>2023-05-15 14:30</td>
+                            <td>Budi Santoso</td>
+                            <td>6281234567890</td>
+                            <td>PRD-2023-001</td>
+                            <td>REF-BUDI-001</td>
+                            <td><span class="badge badge-success">Aktif</span></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>2023-05-16 10:15</td>
+                            <td>Ani Wijaya</td>
+                            <td>6282345678901</td>
+                            <td>PRD-2023-002</td>
+                            <td>REF-ANI-002</td>
+                            <td><span class="badge badge-success">Aktif</span></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>2023-05-17 16:45</td>
+                            <td>Citra Dewi</td>
+                            <td>6283456789012</td>
+                            <td>PRD-2023-003</td>
+                            <td>REF-CITRA-003</td>
+                            <td><span class="badge badge-warning">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>2023-05-18 09:20</td>
+                            <td>Doni Pratama</td>
+                            <td>6284567890123</td>
+                            <td>PRD-2023-004</td>
+                            <td>REF-DONI-004</td>
+                            <td><span class="badge badge-success">Aktif</span></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>2023-05-19 13:10</td>
+                            <td>Eka Sari</td>
+                            <td>6285678901234</td>
+                            <td>PRD-2023-005</td>
+                            <td>REF-EKA-005</td>
+                            <td><span class="badge badge-danger">Expired</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2023 Premium Code Validation System. All rights reserved.</p>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample data for validation
+            const validCodes = [
+                'REF-BUDI-001',
+                'REF-ANI-002',
+                'REF-CITRA-003',
+                'REF-DONI-004',
+                'REF-EKA-005'
+            ];
+            
+            // Form submission
+            document.getElementById('registrationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Data pembelian berhasil disimpan!');
+                this.reset();
+            });
+            
+            // Validation function
+            document.getElementById('validateBtn').addEventListener('click', function() {
+                const referralCode = document.getElementById('searchReferral').value.trim();
+                const resultDiv = document.getElementById('validationResult');
+                const resultTitle = document.getElementById('resultTitle');
+                const resultDetails = document.getElementById('resultDetails');
+                const resultIcon = resultDiv.querySelector('.result-icon');
+                
+                if (!referralCode) {
+                    alert('Masukkan kode referral terlebih dahulu!');
+                    return;
+                }
+                
+                if (validCodes.includes(referralCode)) {
+                    resultDiv.className = 'validation-result valid result-valid';
+                    resultIcon.className = 'fas fa-check-circle result-icon';
+                    resultTitle.textContent = 'Kode Valid!';
+                    resultDetails.textContent = `Kode referral ${referralCode} terdaftar dalam sistem dan aktif.`;
+                } else {
+                    resultDiv.className = 'validation-result invalid result-invalid';
+                    resultIcon.className = 'fas fa-times-circle result-icon';
+                    resultTitle.textContent = 'Kode Tidak Valid!';
+                    resultDetails.textContent = `Kode referral ${referralCode} tidak terdaftar dalam sistem.`;
+                }
+                
+                resultDiv.style.display = 'block';
+            });
+            
+            // Search functionality
+            document.getElementById('searchReferral').addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('validateBtn').click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
