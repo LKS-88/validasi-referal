@@ -344,6 +344,14 @@
             .backup-actions {
                 flex-direction: column;
             }
+            
+            table {
+                font-size: 0.85rem;
+            }
+            
+            th, td {
+                padding: 8px 10px;
+            }
         }
     </style>
 </head>
@@ -429,7 +437,7 @@
                 
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="searchData" class="form-control" placeholder="Cari data... (Nama, Kode, WhatsApp)">
+                    <input type="text" id="searchData" class="form-control" placeholder="Cari data... (Nama, Kode, WhatsApp, Keterangan)">
                 </div>
                 
                 <div class="table-responsive">
@@ -442,6 +450,7 @@
                                 <th>WhatsApp</th>
                                 <th>Kode</th>
                                 <th>Referral</th>
+                                <th>Keterangan</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -624,7 +633,7 @@
 
                 if (data.length === 0) {
                     const row = document.createElement('tr');
-                    row.innerHTML = `<td colspan="8" style="text-align: center;">Tidak ada data yang tersedia</td>`;
+                    row.innerHTML = `<td colspan="9" style="text-align: center;">Tidak ada data yang tersedia</td>`;
                     tableBody.appendChild(row);
                     return;
                 }
@@ -647,6 +656,7 @@
                         <td>${item.whatsapp}</td>
                         <td>${item.purchaseCode}</td>
                         <td>${item.referralCode}</td>
+                        <td>${item.notes || '-'}</td>
                         <td><span class="badge ${badgeClass}">${item.status}</span></td>
                         <td class="action-buttons">
                             <button onclick="editPurchase(${item.id})" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</button>
@@ -770,7 +780,8 @@
                     item.name.toLowerCase().includes(searchTerm) ||
                     item.whatsapp.includes(searchTerm) ||
                     item.purchaseCode.toLowerCase().includes(searchTerm) ||
-                    item.referralCode.toLowerCase().includes(searchTerm)
+                    item.referralCode.toLowerCase().includes(searchTerm) ||
+                    (item.notes && item.notes.toLowerCase().includes(searchTerm))
                 );
                 renderPurchaseTable(filteredData);
             });
@@ -798,7 +809,8 @@
                         Kode referral <strong>${referralCode}</strong> terdaftar.<br>
                         Status: <span class="badge ${foundPurchase.status === 'Aktif' ? 'badge-success' : foundPurchase.status === 'Pending' ? 'badge-warning' : 'badge-danger'}">${foundPurchase.status}</span><br>
                         Atas Nama: ${foundPurchase.name}<br>
-                        Tanggal: ${formatDateTime(foundPurchase.date)}
+                        Tanggal: ${formatDateTime(foundPurchase.date)}<br>
+                        Keterangan: ${foundPurchase.notes || '-'}
                     `;
                 } else {
                     resultDiv.className = 'validation-result invalid';
