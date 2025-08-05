@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -11,14 +10,20 @@
         :root {
             --primary: #4361ee;
             --primary-dark: #3a0ca3;
+            --primary-light: #4895ef;
             --accent: #f72585;
+            --accent-dark: #d91a6d;
             --success: #4cc9f0;
+            --success-dark: #3aa8d8;
             --warning: #f8961e;
+            --warning-dark: #e07e0e;
             --danger: #ef233c;
+            --danger-dark: #d61a2a;
             --light: #f8f9fa;
             --dark: #212529;
             --gray: #6c757d;
-            --bg: #f5f7ff;
+            --gray-light: #e9ecef;
+            --bg-gradient: linear-gradient(135deg, #f5f7ff 0%, #e8ecff 100%);
         }
 
         * {
@@ -29,69 +34,106 @@
         }
 
         body {
-            background-color: var(--bg);
+            background: var(--bg-gradient);
             color: var(--dark);
             line-height: 1.6;
             min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Particle Background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            opacity: 0.5;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+            position: relative;
+            z-index: 1;
         }
 
         /* Header */
         .header {
             text-align: center;
             margin-bottom: 2.5rem;
+            position: relative;
+            animation: fadeInDown 0.8s ease;
         }
 
         .header h1 {
             font-size: 2.5rem;
             font-weight: 700;
-            color: var(--primary-dark);
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin-bottom: 0.5rem;
-            position: relative;
             display: inline-block;
+            position: relative;
+            padding-bottom: 0.5rem;
         }
 
         .header h1::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: 0;
             left: 50%;
             transform: translateX(-50%);
             width: 80px;
             height: 4px;
-            background: var(--accent);
+            background: linear-gradient(to right, var(--primary), var(--accent));
             border-radius: 2px;
         }
 
         .header p {
             color: var(--gray);
             font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         /* Card */
         .card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             padding: 2rem;
             margin-bottom: 2rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
         }
 
         .card-title {
             font-size: 1.5rem;
             font-weight: 600;
-            color: var(--primary);
+            color: var(--primary-dark);
             margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
@@ -105,6 +147,7 @@
         /* Form */
         .form-group {
             margin-bottom: 1.5rem;
+            position: relative;
         }
 
         .form-group label {
@@ -112,35 +155,62 @@
             margin-bottom: 0.5rem;
             font-weight: 500;
             color: var(--dark);
+            transition: all 0.3s ease;
         }
 
         .form-control {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
             font-size: 1rem;
             transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            background: white;
         }
 
         /* Buttons */
         .btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             padding: 12px 24px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
+        }
+
+        .btn:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
         }
 
         .btn-primary {
@@ -150,7 +220,8 @@
 
         .btn-primary:hover {
             background: var(--primary-dark);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(67, 97, 238, 0.2);
         }
 
         .btn-accent {
@@ -159,8 +230,9 @@
         }
 
         .btn-accent:hover {
-            background: #d91a6d;
-            transform: translateY(-2px);
+            background: var(--accent-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(247, 37, 133, 0.2);
         }
 
         .btn-warning {
@@ -169,8 +241,9 @@
         }
 
         .btn-warning:hover {
-            background: #e07e0e;
-            transform: translateY(-2px);
+            background: var(--warning-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(248, 150, 30, 0.2);
         }
 
         .btn-danger {
@@ -179,12 +252,13 @@
         }
 
         .btn-danger:hover {
-            background: #d61a2a;
-            transform: translateY(-2px);
+            background: var(--danger-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(239, 35, 60, 0.2);
         }
 
         .btn-sm {
-            padding: 8px 12px;
+            padding: 8px 16px;
             font-size: 0.9rem;
         }
 
@@ -192,57 +266,65 @@
         .table-responsive {
             overflow-x: auto;
             margin-top: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            background: white;
         }
 
         th, td {
             padding: 12px 15px;
             text-align: left;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         th {
-            background: var(--primary);
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
             color: white;
             font-weight: 500;
+            position: sticky;
+            top: 0;
         }
 
         tr:nth-child(even) {
-            background: #f9f9f9;
+            background: rgba(248, 249, 250, 0.5);
         }
 
         tr:hover {
-            background: #f1f3ff;
+            background: rgba(67, 97, 238, 0.05);
         }
 
         /* Badges */
         .badge {
             display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
+            padding: 6px 10px;
+            border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .badge-success {
-            background: #e8f7ef;
-            color: #00a76f;
+            background: rgba(76, 201, 240, 0.1);
+            color: var(--success-dark);
+            border: 1px solid rgba(76, 201, 240, 0.3);
         }
 
         .badge-warning {
-            background: #fff6e8;
-            color: #ff9e27;
+            background: rgba(248, 150, 30, 0.1);
+            color: var(--warning-dark);
+            border: 1px solid rgba(248, 150, 30, 0.3);
         }
 
         .badge-danger {
-            background: #feeceb;
-            color: #ff4242;
+            background: rgba(239, 35, 60, 0.1);
+            color: var(--danger-dark);
+            border: 1px solid rgba(239, 35, 60, 0.3);
         }
 
         /* Search Box */
@@ -252,58 +334,96 @@
         }
 
         .search-box input {
-            padding-left: 40px;
+            padding-left: 45px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.8);
         }
 
         .search-box i {
             position: absolute;
-            left: 15px;
+            left: 20px;
             top: 50%;
             transform: translateY(-50%);
-            color: #999;
+            color: var(--gray);
         }
 
         /* Validation Result */
         .validation-result {
             padding: 1.5rem;
-            border-radius: 8px;
+            border-radius: 12px;
             margin-top: 1.5rem;
             display: none;
+            animation: fadeIn 0.5s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         .valid {
-            background: #e8f7ef;
-            border-left: 4px solid #00a76f;
+            background: rgba(76, 201, 240, 0.1);
+            border-left: 4px solid var(--success);
         }
 
         .invalid {
-            background: #feeceb;
-            border-left: 4px solid #ff4242;
+            background: rgba(239, 35, 60, 0.1);
+            border-left: 4px solid var(--danger);
         }
 
         .result-icon {
-            font-size: 2rem;
-            margin-right: 1rem;
+            font-size: 2.5rem;
+            margin-right: 1.5rem;
+            min-width: 40px;
+        }
+
+        .valid .result-icon {
+            color: var(--success);
+        }
+
+        .invalid .result-icon {
+            color: var(--danger);
         }
 
         /* Admin Section */
         .admin-section {
             display: none;
+            animation: fadeIn 0.8s ease;
         }
 
+        /* Login Form */
         .login-form {
             max-width: 500px;
             margin: 2rem auto;
-            padding: 2rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.8s ease;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
         }
 
         .login-title {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        /* Compact Form */
+        .compact-form {
+            max-width: 500px;
+            margin: 0 auto;
         }
 
         /* Action Buttons */
@@ -316,9 +436,9 @@
         .backup-section {
             margin-top: 1.5rem;
             padding: 1.5rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 1px dashed #ddd;
+            background: rgba(248, 249, 250, 0.5);
+            border-radius: 12px;
+            border: 1px dashed rgba(0, 0, 0, 0.1);
         }
 
         .backup-actions {
@@ -327,19 +447,76 @@
             margin-top: 1rem;
         }
 
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Floating Animation */
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .container {
-                padding: 1rem;
+                padding: 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
             }
 
             .card {
                 padding: 1.5rem;
             }
 
+            .login-form {
+                padding: 1.5rem;
+            }
+
             .action-buttons {
                 flex-direction: column;
-                gap: 4px;
+                gap: 6px;
             }
 
             .backup-actions {
@@ -351,27 +528,45 @@
             }
             
             th, td {
-                padding: 8px 10px;
+                padding: 10px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .btn {
+                padding: 10px 18px;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
     <div class="container">
         <!-- Header -->
         <div class="header">
             <h1><i class="fas fa-shield-alt"></i> Premium Code Validation</h1>
-            <p>Sistem validasi kode pembelian dengan keamanan</p>
+            <p>Sistem validasi kode pembelian dengan keamanan tingkat tinggi</p>
         </div>
 
         <!-- Admin Login -->
-        <div id="adminLogin" class="login-form">
+        <div id="adminLogin" class="login-form floating">
             <h2 class="login-title"><i class="fas fa-lock"></i> Admin Login</h2>
             <div class="form-group">
                 <label for="adminCode">Kode Keamanan Admin</label>
                 <input type="password" id="adminCode" class="form-control" placeholder="Masukkan kode keamanan">
             </div>
-            <button id="loginBtn" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Masuk</button>
+            <button id="loginBtn" class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i> Masuk</button>
         </div>
 
         <!-- Admin Section -->
@@ -424,7 +619,7 @@
                         </select>
                     </div>
                     
-                    <div style="display: flex; gap: 10px;">
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                         <button type="submit" id="saveBtn" class="btn btn-accent"><i class="fas fa-save"></i> Simpan Data</button>
                         <button type="button" id="cancelEdit" class="btn btn-danger" style="display: none;"><i class="fas fa-times"></i> Batal Edit</button>
                         <button type="button" id="clearForm" class="btn btn-warning"><i class="fas fa-broom"></i> Bersihkan Form</button>
@@ -481,19 +676,22 @@
             </div>
 
             <!-- Logout -->
-            <button id="logoutBtn" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Keluar Admin</button>
+            <button id="logoutBtn" class="btn btn-danger btn-block"><i class="fas fa-sign-out-alt"></i> Keluar Admin</button>
         </div>
 
         <!-- Public Section (Validasi Kode) -->
-        <div class="card">
+        <div class="card compact-form">
             <h2 class="card-title"><i class="fas fa-search"></i> Validasi Kode Referral</h2>
             
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchReferral" class="form-control" placeholder="Masukkan kode referral untuk validasi...">
+            <div class="form-group">
+                <label for="searchReferral">Masukkan Kode Referral</label>
+                <div class="search-box">
+                    <i class="fas fa-tag"></i>
+                    <input type="text" id="searchReferral" class="form-control" placeholder="Contoh: REF-BUDI-001">
+                </div>
             </div>
             
-            <button id="validateBtn" class="btn btn-primary"><i class="fas fa-check-circle"></i> Validasi Kode</button>
+            <button id="validateBtn" class="btn btn-primary btn-block"><i class="fas fa-check-circle"></i> Validasi Kode</button>
             
             <div id="validationResult" class="validation-result">
                 <div style="display: flex; align-items: center;">
@@ -507,15 +705,125 @@
         </div>
 
         <!-- Footer -->
-        <div class="footer" style="text-align: center; margin-top: 3rem; color: var(--gray); font-size: 0.9rem;">
-            <p>&copy; 2025 <strong>Premium Code Validation System</strong>. All rights reserved.</p>
+        <div class="footer">
+            <p>&copy; 2023 <strong>Premium Code Validation System</strong>. All rights reserved.</p>
         </div>
     </div>
 
+    <!-- Particles.js Library -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize particles.js
+            particlesJS("particles-js", {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": ["#4361ee", "#3a0ca3", "#f72585", "#4cc9f0"]
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.3,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 40,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#4361ee",
+                        "opacity": 0.2,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 1
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+
             // Kode Admin
-            const ADMIN_CODE = "Referral-2468";
+            const ADMIN_CODE = "Admin.13579";
             
             // Variabel untuk edit mode
             let isEditing = false;
@@ -525,56 +833,56 @@
             let purchaseData = JSON.parse(localStorage.getItem('purchaseData')) || [
                 {
                     id: 1,
-                    date: "2025-05-15T14:30",
+                    date: "2023-05-15T14:30",
                     name: "Budi Santoso",
                     address: "Jl. Merdeka No. 123, Jakarta",
                     whatsapp: "6281234567890",
                     notes: "Pembelian paket premium",
-                    purchaseCode: "PRD-2025-001",
+                    purchaseCode: "PRD-2023-001",
                     referralCode: "REF-BUDI-001",
                     status: "Aktif"
                 },
                 {
                     id: 2,
-                    date: "2025-05-16T10:15",
+                    date: "2023-05-16T10:15",
                     name: "Ani Wijaya",
                     address: "Jl. Sudirman No. 45, Bandung",
                     whatsapp: "6282345678901",
                     notes: "Pembelian paket standard",
-                    purchaseCode: "PRD-2025-002",
+                    purchaseCode: "PRD-2023-002",
                     referralCode: "REF-ANI-002",
                     status: "Aktif"
                 },
                 {
                     id: 3,
-                    date: "2025-05-17T16:45",
+                    date: "2023-05-17T16:45",
                     name: "Citra Dewi",
                     address: "Jl. Gatot Subroto No. 67, Surabaya",
                     whatsapp: "6283456789012",
                     notes: "Pembelian paket trial",
-                    purchaseCode: "PRD-2025-003",
+                    purchaseCode: "PRD-2023-003",
                     referralCode: "REF-CITRA-003",
                     status: "Pending"
                 },
                 {
                     id: 4,
-                    date: "2025-05-18T09:20",
+                    date: "2023-05-18T09:20",
                     name: "Doni Pratama",
                     address: "Jl. Thamrin No. 89, Medan",
                     whatsapp: "6284567890123",
                     notes: "Pembelian paket premium",
-                    purchaseCode: "PRD-2025-004",
+                    purchaseCode: "PRD-2023-004",
                     referralCode: "REF-DONI-004",
                     status: "Aktif"
                 },
                 {
                     id: 5,
-                    date: "2025-05-19T13:10",
+                    date: "2023-05-19T13:10",
                     name: "Eka Sari",
                     address: "Jl. Asia Afrika No. 12, Yogyakarta",
                     whatsapp: "6285678901234",
                     notes: "Pembelian paket standard",
-                    purchaseCode: "PRD-2025-005",
+                    purchaseCode: "PRD-2023-005",
                     referralCode: "REF-EKA-005",
                     status: "Expired"
                 }
@@ -612,9 +920,27 @@
                     document.getElementById('adminSection').style.display = 'block';
                     sessionStorage.setItem('adminLoggedIn', 'true');
                     document.getElementById('adminCode').value = ''; // Reset input
+                    
+                    // Animate admin section
+                    const adminSection = document.getElementById('adminSection');
+                    adminSection.style.animation = 'none';
+                    setTimeout(() => {
+                        adminSection.style.animation = 'fadeIn 0.8s ease';
+                    }, 10);
                 } else {
                     alert('Kode keamanan salah!');
                     document.getElementById('adminCode').value = '';
+                    
+                    // Shake animation for wrong password
+                    const loginForm = document.getElementById('adminLogin');
+                    loginForm.style.animation = 'none';
+                    setTimeout(() => {
+                        loginForm.style.animation = 'shake 0.5s ease';
+                    }, 10);
+                    
+                    setTimeout(() => {
+                        loginForm.style.animation = 'floating 3s ease-in-out infinite';
+                    }, 600);
                 }
             });
 
@@ -624,6 +950,10 @@
                 document.getElementById('adminLogin').style.display = 'block';
                 document.getElementById('adminSection').style.display = 'none';
                 resetForm();
+                
+                // Re-enable floating animation
+                const loginForm = document.getElementById('adminLogin');
+                loginForm.style.animation = 'floating 3s ease-in-out infinite';
             });
 
             // Render Tabel Data
@@ -634,13 +964,14 @@
 
                 if (data.length === 0) {
                     const row = document.createElement('tr');
-                    row.innerHTML = `<td colspan="9" style="text-align: center;">Tidak ada data yang tersedia</td>`;
+                    row.innerHTML = `<td colspan="9" style="text-align: center; padding: 2rem;">Tidak ada data yang tersedia</td>`;
                     tableBody.appendChild(row);
                     return;
                 }
 
                 data.forEach((item, index) => {
                     const row = document.createElement('tr');
+                    row.style.animation = 'fadeIn 0.5s ease';
                     
                     // Tentukan badge berdasarkan status
                     let badgeClass = 'badge-success';
@@ -655,8 +986,8 @@
                         <td>${formattedDate}</td>
                         <td>${item.name}</td>
                         <td>${item.whatsapp}</td>
-                        <td>${item.purchaseCode}</td>
-                        <td>${item.referralCode}</td>
+                        <td><code>${item.purchaseCode}</code></td>
+                        <td><code>${item.referralCode}</code></td>
                         <td>${item.notes || '-'}</td>
                         <td><span class="badge ${badgeClass}">${item.status}</span></td>
                         <td class="action-buttons">
@@ -711,7 +1042,16 @@
                 saveData();
                 renderPurchaseTable();
                 resetForm();
-                alert(`Data berhasil ${isEditing ? 'diperbarui' : 'disimpan'}!`);
+                
+                // Show success animation
+                const saveBtn = document.getElementById('saveBtn');
+                saveBtn.innerHTML = '<i class="fas fa-check"></i> Berhasil!';
+                saveBtn.style.backgroundColor = '#00a76f';
+                
+                setTimeout(() => {
+                    saveBtn.innerHTML = isEditing ? '<i class="fas fa-save"></i> Update Data' : '<i class="fas fa-save"></i> Simpan Data';
+                    saveBtn.style.backgroundColor = '';
+                }, 2000);
             });
 
             // Edit Data
@@ -732,8 +1072,11 @@
                     document.getElementById('saveBtn').innerHTML = '<i class="fas fa-save"></i> Update Data';
                     document.getElementById('cancelEdit').style.display = 'inline-block';
                     
-                    // Scroll ke form
-                    document.getElementById('registrationForm').scrollIntoView({ behavior: 'smooth' });
+                    // Scroll ke form dengan animasi
+                    document.getElementById('registrationForm').scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
             };
 
@@ -746,7 +1089,16 @@
                     if (isEditing && currentEditId === id) {
                         resetForm();
                     }
-                    alert('Data berhasil dihapus!');
+                    
+                    // Show delete animation
+                    const deleteBtn = event.target;
+                    deleteBtn.innerHTML = '<i class="fas fa-check"></i> Terhapus!';
+                    deleteBtn.style.backgroundColor = '#00a76f';
+                    
+                    setTimeout(() => {
+                        deleteBtn.innerHTML = '<i class="fas fa-trash"></i> Hapus';
+                        deleteBtn.style.backgroundColor = '';
+                    }, 1500);
                 }
             };
 
@@ -771,6 +1123,16 @@
             document.getElementById('clearForm').addEventListener('click', function() {
                 if (confirm('Apakah Anda yakin ingin membersihkan semua input form?')) {
                     resetForm();
+                    
+                    // Show clear animation
+                    const clearBtn = document.getElementById('clearForm');
+                    clearBtn.innerHTML = '<i class="fas fa-check"></i> Terhapus!';
+                    clearBtn.style.backgroundColor = '#00a76f';
+                    
+                    setTimeout(() => {
+                        clearBtn.innerHTML = '<i class="fas fa-broom"></i> Bersihkan Form';
+                        clearBtn.style.backgroundColor = '';
+                    }, 1500);
                 }
             });
 
@@ -817,10 +1179,20 @@
                     resultDiv.className = 'validation-result invalid';
                     resultIcon.className = 'fas fa-times-circle result-icon';
                     resultTitle.textContent = 'Kode Tidak Valid!';
-                    resultDetails.textContent = `Kode referral ${referralCode} tidak terdaftar.`;
+                    resultDetails.textContent = `Kode referral ${referralCode} tidak terdaftar dalam sistem kami.`;
                 }
                 
-                resultDiv.style.display = 'block';
+                resultDiv.style.display = 'flex';
+                
+                // Button animation
+                const validateBtn = document.getElementById('validateBtn');
+                validateBtn.innerHTML = '<i class="fas fa-check"></i> Selesai!';
+                validateBtn.style.backgroundColor = foundPurchase ? '#00a76f' : '#ff4242';
+                
+                setTimeout(() => {
+                    validateBtn.innerHTML = '<i class="fas fa-check-circle"></i> Validasi Kode';
+                    validateBtn.style.backgroundColor = '';
+                }, 1500);
             });
 
             // Backup Data (Download JSON)
@@ -834,7 +1206,15 @@
                 link.setAttribute('download', exportName);
                 link.click();
                 
-                alert('Backup data berhasil diunduh!');
+                // Button animation
+                const backupBtn = document.getElementById('backupBtn');
+                backupBtn.innerHTML = '<i class="fas fa-check"></i> Tersimpan!';
+                backupBtn.style.backgroundColor = '#00a76f';
+                
+                setTimeout(() => {
+                    backupBtn.innerHTML = '<i class="fas fa-download"></i> Backup Data';
+                    backupBtn.style.backgroundColor = '';
+                }, 1500);
             });
 
             // Restore Data (Upload JSON)
@@ -855,7 +1235,16 @@
                                 purchaseData = importedData;
                                 saveData();
                                 renderPurchaseTable();
-                                alert('Data berhasil dipulihkan!');
+                                
+                                // Button animation
+                                const restoreBtn = document.getElementById('restoreBtn');
+                                restoreBtn.innerHTML = '<i class="fas fa-check"></i> Dipulihkan!';
+                                restoreBtn.style.backgroundColor = '#00a76f';
+                                
+                                setTimeout(() => {
+                                    restoreBtn.innerHTML = '<i class="fas fa-upload"></i> Restore Data';
+                                    restoreBtn.style.backgroundColor = '';
+                                }, 1500);
                             }
                         } else {
                             alert('File tidak valid! Pastikan file berisi data yang benar.');
@@ -874,9 +1263,29 @@
                     purchaseData = [];
                     saveData();
                     renderPurchaseTable();
-                    alert('Semua data telah direset!');
+                    
+                    // Button animation
+                    const resetBtn = document.getElementById('resetBtn');
+                    resetBtn.innerHTML = '<i class="fas fa-check"></i> Terreset!';
+                    resetBtn.style.backgroundColor = '#00a76f';
+                    
+                    setTimeout(() => {
+                        resetBtn.innerHTML = '<i class="fas fa-trash"></i> Reset Data';
+                        resetBtn.style.backgroundColor = '';
+                    }, 1500);
                 }
             });
+
+            // Add shake animation to CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                    20%, 40%, 60%, 80% { transform: translateX(5px); }
+                }
+            `;
+            document.head.appendChild(style);
         });
     </script>
 </body>
