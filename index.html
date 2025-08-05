@@ -42,15 +42,15 @@
             position: relative;
         }
 
-        /* Particle Background */
+        /* Enhanced Particle Background */
         #particles-js {
-            position: absolute;
+            position: fixed;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
             z-index: 0;
-            opacity: 0.5;
+            background: var(--bg-gradient);
         }
 
         .container {
@@ -103,14 +103,14 @@
 
         /* Card */
         .card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.97);
             border-radius: 16px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             padding: 2rem;
             margin-bottom: 2rem;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             position: relative;
             overflow: hidden;
         }
@@ -165,7 +165,7 @@
             border-radius: 10px;
             font-size: 1rem;
             transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
@@ -201,7 +201,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             z-index: -1;
             transform: scaleX(0);
             transform-origin: right;
@@ -310,19 +310,19 @@
         }
 
         .badge-success {
-            background: rgba(76, 201, 240, 0.1);
+            background: rgba(76, 201, 240, 0.15);
             color: var(--success-dark);
             border: 1px solid rgba(76, 201, 240, 0.3);
         }
 
         .badge-warning {
-            background: rgba(248, 150, 30, 0.1);
+            background: rgba(248, 150, 30, 0.15);
             color: var(--warning-dark);
             border: 1px solid rgba(248, 150, 30, 0.3);
         }
 
         .badge-danger {
-            background: rgba(239, 35, 60, 0.1);
+            background: rgba(239, 35, 60, 0.15);
             color: var(--danger-dark);
             border: 1px solid rgba(239, 35, 60, 0.3);
         }
@@ -336,7 +336,7 @@
         .search-box input {
             padding-left: 45px;
             border-radius: 50px;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
         }
 
         .search-box i {
@@ -358,12 +358,12 @@
         }
 
         .valid {
-            background: rgba(76, 201, 240, 0.1);
+            background: rgba(76, 201, 240, 0.15);
             border-left: 4px solid var(--success);
         }
 
         .invalid {
-            background: rgba(239, 35, 60, 0.1);
+            background: rgba(239, 35, 60, 0.15);
             border-left: 4px solid var(--danger);
         }
 
@@ -392,12 +392,12 @@
             max-width: 500px;
             margin: 2rem auto;
             padding: 2.5rem;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.97);
             border-radius: 16px;
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
             animation: fadeInUp 0.8s ease;
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             position: relative;
             overflow: hidden;
         }
@@ -436,7 +436,7 @@
         .backup-section {
             margin-top: 1.5rem;
             padding: 1.5rem;
-            background: rgba(248, 249, 250, 0.5);
+            background: rgba(248, 249, 250, 0.6);
             border-radius: 12px;
             border: 1px dashed rgba(0, 0, 0, 0.1);
         }
@@ -496,6 +496,13 @@
             100% { transform: translateY(0px); }
         }
 
+        /* Pulse Animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .container {
@@ -549,7 +556,7 @@
     </style>
 </head>
 <body>
-    <!-- Particle Background -->
+    <!-- Enhanced Particle Background -->
     <div id="particles-js"></div>
 
     <div class="container">
@@ -715,18 +722,18 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize particles.js
+            // Enhanced particles.js configuration
             particlesJS("particles-js", {
                 "particles": {
                     "number": {
-                        "value": 80,
+                        "value": 120,
                         "density": {
                             "enable": true,
                             "value_area": 800
                         }
                     },
                     "color": {
-                        "value": ["#4361ee", "#3a0ca3", "#f72585", "#4cc9f0"]
+                        "value": ["#4361ee", "#3a0ca3", "#f72585", "#4cc9f0", "#4895ef"]
                     },
                     "shape": {
                         "type": "circle",
@@ -739,44 +746,44 @@
                         }
                     },
                     "opacity": {
-                        "value": 0.3,
+                        "value": 0.5,
                         "random": true,
                         "anim": {
-                            "enable": false,
+                            "enable": true,
                             "speed": 1,
-                            "opacity_min": 0.1,
+                            "opacity_min": 0.2,
                             "sync": false
                         }
                     },
                     "size": {
-                        "value": 3,
+                        "value": 4,
                         "random": true,
                         "anim": {
-                            "enable": false,
-                            "speed": 40,
-                            "size_min": 0.1,
+                            "enable": true,
+                            "speed": 4,
+                            "size_min": 1,
                             "sync": false
                         }
                     },
                     "line_linked": {
                         "enable": true,
-                        "distance": 150,
+                        "distance": 120,
                         "color": "#4361ee",
-                        "opacity": 0.2,
-                        "width": 1
+                        "opacity": 0.3,
+                        "width": 1.5
                     },
                     "move": {
                         "enable": true,
-                        "speed": 2,
+                        "speed": 3,
                         "direction": "none",
                         "random": true,
                         "straight": false,
                         "out_mode": "out",
                         "bounce": false,
                         "attract": {
-                            "enable": false,
-                            "rotateX": 600,
-                            "rotateY": 1200
+                            "enable": true,
+                            "rotateX": 800,
+                            "rotateY": 1600
                         }
                     }
                 },
@@ -795,16 +802,16 @@
                     },
                     "modes": {
                         "grab": {
-                            "distance": 140,
+                            "distance": 150,
                             "line_linked": {
-                                "opacity": 1
+                                "opacity": 0.5
                             }
                         },
                         "bubble": {
                             "distance": 400,
                             "size": 40,
                             "duration": 2,
-                            "opacity": 8,
+                            "opacity": 0.8,
                             "speed": 3
                         },
                         "repulse": {
@@ -812,7 +819,7 @@
                             "duration": 0.4
                         },
                         "push": {
-                            "particles_nb": 4
+                            "particles_nb": 6
                         },
                         "remove": {
                             "particles_nb": 2
@@ -1281,8 +1288,13 @@
             style.textContent = `
                 @keyframes shake {
                     0%, 100% { transform: translateX(0); }
-                    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-                    20%, 40%, 60%, 80% { transform: translateX(5px); }
+                    10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+                    20%, 40%, 60%, 80% { transform: translateX(8px); }
+                }
+                @keyframes pulse {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.05); }
+                    100% { transform: scale(1); }
                 }
             `;
             document.head.appendChild(style);
