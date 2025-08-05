@@ -44,7 +44,6 @@
         .header {
             text-align: center;
             margin-bottom: 2.5rem;
-            animation: fadeIn 0.8s ease;
         }
 
         .header h1 {
@@ -81,7 +80,6 @@
             padding: 2rem;
             margin-bottom: 2rem;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: slideUp 0.5s ease;
         }
 
         .card:hover {
@@ -270,7 +268,6 @@
             border-radius: 8px;
             margin-top: 1.5rem;
             display: none;
-            animation: fadeIn 0.5s ease;
         }
 
         .valid {
@@ -300,7 +297,6 @@
             background: white;
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            animation: fadeIn 0.8s ease;
         }
 
         .login-title {
@@ -328,23 +324,6 @@
             display: flex;
             gap: 10px;
             margin-top: 1rem;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         /* Responsive */
@@ -439,6 +418,7 @@
                     <div style="display: flex; gap: 10px;">
                         <button type="submit" id="saveBtn" class="btn btn-accent"><i class="fas fa-save"></i> Simpan Data</button>
                         <button type="button" id="cancelEdit" class="btn btn-danger" style="display: none;"><i class="fas fa-times"></i> Batal Edit</button>
+                        <button type="button" id="clearForm" class="btn btn-warning"><i class="fas fa-broom"></i> Bersihkan Form</button>
                     </div>
                 </form>
             </div>
@@ -527,6 +507,10 @@
             // Kode Admin
             const ADMIN_CODE = "Admin.13579";
             
+            // Variabel untuk edit mode
+            let isEditing = false;
+            let currentEditId = null;
+            
             // Data Awal (Jika localStorage kosong)
             let purchaseData = JSON.parse(localStorage.getItem('purchaseData')) || [
                 {
@@ -589,13 +573,17 @@
             // Simpan ke localStorage
             function saveData() {
                 localStorage.setItem('purchaseData', JSON.stringify(purchaseData));
-                renderPurchaseTable();
             }
 
             // Inisialisasi
             init();
 
             function init() {
+                // Set tanggal default ke waktu sekarang
+                const now = new Date();
+                const formattedNow = now.toISOString().slice(0, 16);
+                document.getElementById('purchaseDate').value = formattedNow;
+                
                 renderPurchaseTable();
                 
                 // Cek login admin
@@ -633,6 +621,13 @@
                 const data = filteredData || purchaseData;
                 const tableBody = document.getElementById('purchaseTableBody');
                 tableBody.innerHTML = '';
+
+                if (data.length === 0) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td colspan="8" style="text-align: center;">Tidak ada data yang tersedia</td>`;
+                    tableBody.appendChild(row);
+                    return;
+                }
 
                 data.forEach((item, index) => {
                     const row = document.createElement('tr');
@@ -703,6 +698,7 @@
                 }
                 
                 saveData();
+                renderPurchaseTable();
                 resetForm();
                 alert(`Data berhasil ${isEditing ? 'diperbarui' : 'disimpan'}!`);
             });
@@ -735,6 +731,7 @@
                 if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
                     purchaseData = purchaseData.filter(item => item.id !== id);
                     saveData();
+                    renderPurchaseTable();
                     if (isEditing && currentEditId === id) {
                         resetForm();
                     }
@@ -745,6 +742,11 @@
             // Reset Form
             function resetForm() {
                 document.getElementById('registrationForm').reset();
+                // Set tanggal default ke waktu sekarang
+                const now = new Date();
+                const formattedNow = now.toISOString().slice(0, 16);
+                document.getElementById('purchaseDate').value = formattedNow;
+                
                 isEditing = false;
                 currentEditId = null;
                 document.getElementById('saveBtn').innerHTML = '<i class="fas fa-save"></i> Simpan Data';
@@ -753,6 +755,13 @@
 
             // Batal Edit
             document.getElementById('cancelEdit').addEventListener('click', resetForm);
+
+            // Bersihkan Form (clear semua input)
+            document.getElementById('clearForm').addEventListener('click', function() {
+                if (confirm('Apakah Anda yakin ingin membersihkan semua input form?')) {
+                    resetForm();
+                }
+            });
 
             // Pencarian Data
             document.getElementById('searchData').addEventListener('input', function() {
@@ -782,7 +791,7 @@
                 const foundPurchase = purchaseData.find(item => item.referralCode === referralCode);
                 
                 if (foundPurchase) {
-                    resultDiv.className = 'validation-result valid result-valid';
+                    resultDiv.className = 'validation-result valid';
                     resultIcon.className = 'fas fa-check-circle result-icon';
                     resultTitle.textContent = 'Kode Valid!';
                     resultDetails.innerHTML = `
@@ -792,7 +801,7 @@
                         Tanggal: ${formatDateTime(foundPurchase.date)}
                     `;
                 } else {
-                    resultDiv.className = 'validation-result invalid result-invalid';
+                    resultDiv.className = 'validation-result invalid';
                     resultIcon.className = 'fas fa-times-circle result-icon';
                     resultTitle.textContent = 'Kode Tidak Valid!';
                     resultDetails.textContent = `Kode referral ${referralCode} tidak terdaftar.`;
@@ -832,6 +841,7 @@
                             if (confirm('Apakah Anda yakin ingin memulihkan data? Data saat ini akan diganti.')) {
                                 purchaseData = importedData;
                                 saveData();
+                                renderPurchaseTable();
                                 alert('Data berhasil dipulihkan!');
                             }
                         } else {
@@ -847,9 +857,10 @@
 
             // Reset Data
             document.getElementById('resetBtn').addEventListener('click', function() {
-                if (confirm('Apakah Anda yakin ingin mereset semua data? Tindakan ini tidak dapat dibatalkan.')) {
+                if (confirm('PERINGATAN: Apakah Anda yakin ingin mereset semua data? Tindakan ini tidak dapat dibatalkan dan semua data akan hilang.')) {
                     purchaseData = [];
                     saveData();
+                    renderPurchaseTable();
                     alert('Semua data telah direset!');
                 }
             });
