@@ -44,6 +44,7 @@
         .header {
             text-align: center;
             margin-bottom: 2.5rem;
+            animation: fadeIn 0.8s ease;
         }
 
         .header h1 {
@@ -80,6 +81,7 @@
             padding: 2rem;
             margin-bottom: 2rem;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideUp 0.5s ease;
         }
 
         .card:hover {
@@ -268,6 +270,7 @@
             border-radius: 8px;
             margin-top: 1.5rem;
             display: none;
+            animation: fadeIn 0.5s ease;
         }
 
         .valid {
@@ -297,6 +300,7 @@
             background: white;
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            animation: fadeIn 0.8s ease;
         }
 
         .login-title {
@@ -324,6 +328,23 @@
             display: flex;
             gap: 10px;
             margin-top: 1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Responsive */
@@ -568,6 +589,7 @@
             // Simpan ke localStorage
             function saveData() {
                 localStorage.setItem('purchaseData', JSON.stringify(purchaseData));
+                renderPurchaseTable();
             }
 
             // Inisialisasi
@@ -681,7 +703,6 @@
                 }
                 
                 saveData();
-                renderPurchaseTable();
                 resetForm();
                 alert(`Data berhasil ${isEditing ? 'diperbarui' : 'disimpan'}!`);
             });
@@ -714,7 +735,6 @@
                 if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
                     purchaseData = purchaseData.filter(item => item.id !== id);
                     saveData();
-                    renderPurchaseTable();
                     if (isEditing && currentEditId === id) {
                         resetForm();
                     }
@@ -812,7 +832,6 @@
                             if (confirm('Apakah Anda yakin ingin memulihkan data? Data saat ini akan diganti.')) {
                                 purchaseData = importedData;
                                 saveData();
-                                renderPurchaseTable();
                                 alert('Data berhasil dipulihkan!');
                             }
                         } else {
@@ -831,7 +850,6 @@
                 if (confirm('Apakah Anda yakin ingin mereset semua data? Tindakan ini tidak dapat dibatalkan.')) {
                     purchaseData = [];
                     saveData();
-                    renderPurchaseTable();
                     alert('Semua data telah direset!');
                 }
             });
